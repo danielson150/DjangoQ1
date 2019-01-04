@@ -1,5 +1,8 @@
 from django.contrib import admin
 from core.models import Despesa
+from datetime import date
+
+data_atual = date.today()
 
 
 class DespesaAdmin(admin.ModelAdmin):
@@ -9,10 +12,10 @@ class DespesaAdmin(admin.ModelAdmin):
     list_filter = ('vencimento','quitado',)
 
     def conta_prox_vencimento(self, obj):
-        return obj.vencimento.strftime('%d/%m/%Y')
+        return obj.vencimento <= (data_atual)
 
     conta_prox_vencimento.short_description = 'Próximo a vencer?'
-    #conta_prox_vencimento.boolean = True
+    conta_prox_vencimento.boolean = True
 
 
 admin.site.register(Despesa, DespesaAdmin)
